@@ -1,6 +1,7 @@
 var express = require('express');
 
 var app = express.createServer(express.logger());
+app.use('/bootstrap', express.static(__dirname, '/bootstrap'));
 
 var fs = require('fs');
 var buffer = fs.readFileSync('index.html');
