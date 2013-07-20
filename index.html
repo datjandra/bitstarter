@@ -15,14 +15,7 @@
 <link rel="stylesheet" href="css/social-buttons.css">
 <link rel="stylesheet"
 	href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css">
-
-<link
-	href="http://fonts.googleapis.com/css?family=Ubuntu:300,400,500,700,300italic,400italic,500italic,700italic"
-	rel="stylesheet" type="text/css">
-<link
-	href="http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,300,400,600,700,800"
-	rel="stylesheet" type="text/css">
-
+	
 <style type="text/css">
 /* Large desktop */
 @media ( min-width : 980px) {
@@ -161,8 +154,8 @@ p {
 			<form action="http://vocifery.appspot.com/ask" id="query"
 				name="query" class="form-search">
 				<input class="input-xxlarge search-query" type="text"
-					maxlength="256" name="question" /> <input class="btn btn-primary"
-					type="submit" value="Ask" />
+					maxlength="256" name="question" /> 
+				<a class="btn btn-primary" href="#" onclick="$(this).closest('form').submit()"><i class="icon-bullhorn icon-white"></i> Ask</a>
 			</form>
 		</div>
 
@@ -178,9 +171,9 @@ p {
 		<div class="row-fluid pitch">
 			<div class="span5 offset1">
 				<p>
-				Vocifery is an Internet-based question answering (QA) engine.
-				It will parse a question and send queries to multiple content sources such as Wikipedia and search engines.
-				The engine then aggregates the results and searches for candidate answers.
+				Vocifery is a question answering (QA) engine.
+				It will parse questions and send queries to different content sources on the Internet.
+				Query results are analyzed, and the engine then searches for candidate answers.
 				</p>
 			</div>
 
@@ -227,6 +220,9 @@ p {
 				<div class="span8 offset2 social">
 					<!-- Social buttons are not included in default Bootstrap. -->
 					<!-- See: http://noizwaves.github.io/bootstrap-social-buttons -->
+					<button class="btn btn-linkedin">
+						<i class="icon-linkedin"></i> | LinkedIn
+					</button>
 					<button class="btn btn-twitter">
 						<i class="icon-twitter"></i> | Twitter
 					</button>
@@ -241,20 +237,21 @@ p {
 			<div class="span5 offset1">
 				<h4 class="text-center">Issues</h4>
 				<ul>
-    				<li>Can only handle trivial questions, such as "who assassinated Abraham Lincoln?"</li>
-    				<li>Many erroneous answers retrieved (false positives)</li>
-    				<li>Many correct answers not retrieved (false negatives)</li>
-    				<li>Poor system responsiveness</li>
-    				<li>Does not scale for worldwide Internet users</li>
+    				<li>Can handle only trivial questions such as "who assassinated Abraham Lincoln?" at this time</li>
+    				<li>Too many erroneous answers retrieved (false positives)</li>
+    				<li>Too many correct answers not retrieved (false negatives)</li>
+    				<li>Improve system performance and responsiveness</li>
+    				<li>Improve scalability for worldwide Internet use</li>
     			</ul>
 			</div>
 			<div class="span5">
 				<h4 class="text-center">Goals</h4>
 				<ul>
-    				<li>Incorporate more question types</li>
-    				<li>Improve precision and recall</li>
+    				<li>Handle more complex question types</li>
+    				<li>Retrieve more relevant answers, and reduce erroneous answers retrieved</li>
+    				<li>Determine how likely a candidate answer is the correct answer</li>
     				<li>Chain together facts to find answers by inference</li>
-    				<li>Move QA engine to better for servers for improved performance</li>
+    				<li>Host QA engine on better servers for improved performance</li>
     				<li>Optimize QA engine for scalability</li>
     			</ul>
 			</div>
