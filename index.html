@@ -15,7 +15,7 @@
 <link rel="stylesheet" href="css/social-buttons.css">
 <link rel="stylesheet"
 	href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css">
-	
+
 <style type="text/css">
 /* Large desktop */
 @media ( min-width : 980px) {
@@ -151,11 +151,12 @@ p {
 		<div class="jumbotron">
 			<img src="http://vocifery.appspot.com/images/FAQ-icon.png"
 				class="question-mark" alt="" />
-			<form action="http://vocifery.appspot.com/ask" id="query"
+			<form action="http://vocifery.appspot.com//ask" id="query"
 				name="query" class="form-search">
 				<input class="input-xxlarge search-query" type="text"
-					maxlength="256" name="question" /> 
-				<a class="btn btn-primary" href="#" onclick="$(this).closest('form').submit()"><i class="icon-bullhorn icon-white"></i> Ask</a>
+					maxlength="256" name="question" /> <a class="btn btn-primary"
+					href="#" onclick="$(this).closest('form').submit()"><i
+					class="icon-bullhorn icon-white"></i> Ask</a>
 			</form>
 		</div>
 
@@ -163,17 +164,23 @@ p {
 			<div class="span6 offset1">
 				<p id="search-result"></p>
 			</div>
-			<div class="span4">
+			<div class="span4 offset1">
 				<p id="search-log"></p>
 			</div>
 		</div>
 
 		<div class="row-fluid pitch">
 			<div class="span5 offset1">
+				<p>Vocifery is a question answering (QA) engine. It will parse
+					questions and send queries to different content sources on the
+					Internet. Query results are analyzed, and the engine then searches
+					for candidate answers.</p>
 				<p>
-				Vocifery is a question answering (QA) engine.
-				It will parse questions and send queries to different content sources on the Internet.
-				Query results are analyzed, and the engine then searches for candidate answers.
+					Note that this application is still at the "Hello World" stage. If
+					the search is taking too long or not responding, try the alternate
+					site <a href="http://vocifery.appspot.com/">here</a>. A
+					crowdfunding effort is underway to host the QA engine on better
+					servers.
 				</p>
 			</div>
 
@@ -220,15 +227,19 @@ p {
 				<div class="span8 offset2 social">
 					<!-- Social buttons are not included in default Bootstrap. -->
 					<!-- See: http://noizwaves.github.io/bootstrap-social-buttons -->
-					<button class="btn btn-linkedin">
+					<button class="btn btn-linkedin"
+						onClick="location.href='http://www.linkedin.com/shareArticle?mini=true&url=http%3A//vocifery.herokuapp.com&title=Question%20answering%20app%20built%20for%20Coursera%20Startup%20Engineering%202013'">
 						<i class="icon-linkedin"></i> | LinkedIn
 					</button>
-					<button class="btn btn-twitter">
+					<button class="btn btn-twitter"
+						onClick="location.href='http://twitter.com/share?text=Question%20answering%20app%20built%20for%20Coursera%20Startup%20Engineering%202013&referrer=http://vocifery.herokuapp.com'">
 						<i class="icon-twitter"></i> | Twitter
 					</button>
-					<button class="btn btn-facebook">
+					<button class="btn btn-facebook"
+						onClick="location.href='http://www.facebook.com/sharer.php?u=http://vocifery.herokuapp.com'">
 						<i class="icon-facebook"></i> | Facebook
 					</button>
+
 				</div>
 			</div>
 		</div>
@@ -237,23 +248,27 @@ p {
 			<div class="span5 offset1">
 				<h4 class="text-center">Issues</h4>
 				<ul>
-    				<li>Can handle only trivial questions such as "who assassinated Abraham Lincoln?" at this time</li>
-    				<li>Too many erroneous answers retrieved (false positives)</li>
-    				<li>Too many correct answers not retrieved (false negatives)</li>
-    				<li>Improve system performance and responsiveness</li>
-    				<li>Improve scalability for worldwide Internet use</li>
-    			</ul>
+					<li>Can handle only simple questions such as "who assassinated
+						Abraham Lincoln?" at this time.</li>
+					<li>Too many erroneous and irrelevant answers retrieved (false
+						positives).</li>
+					<li>Too many correct answers not retrieved (false negatives).</li>
+					<li>Improve system performance and responsiveness.</li>
+					<li>Improve scalability for worldwide Internet use.</li>
+				</ul>
 			</div>
 			<div class="span5">
 				<h4 class="text-center">Goals</h4>
 				<ul>
-    				<li>Handle more complex question types</li>
-    				<li>Retrieve more relevant answers, and reduce erroneous answers retrieved</li>
-    				<li>Determine how likely a candidate answer is the correct answer</li>
-    				<li>Chain together facts to find answers by inference</li>
-    				<li>Host QA engine on better servers for improved performance</li>
-    				<li>Optimize QA engine for scalability</li>
-    			</ul>
+					<li>Handle more complex question types.</li>
+					<li>Retrieve more relevant answers, and reduce erroneous
+						answers retrieved.</li>
+					<li>Determine how likely a candidate answer is the correct
+						answer.</li>
+					<li>Chain facts to find answers by inference.</li>
+					<li>Host QA engine on better servers for improved performance.</li>
+					<li>Optimize QA engine for scalability.</li>
+				</ul>
 			</div>
 		</div>
 
@@ -274,10 +289,11 @@ p {
 
 	<div id="query-validator" class="modal hide fade">
 		<div class="modal-body">
-			<p>Question must begin with one of when|where|why|who|whom|what|which|how and end with question mark.</p>
+			<p>Question must begin with one of
+				when|where|why|who|whom|what|which|how and end with question mark.</p>
 		</div>
 		<div class="modal-footer">
-			 <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 		</div>
 	</div>
 
@@ -287,8 +303,8 @@ p {
 		$(document).on("searchComplete", onSearchComplete);
 		function onSearchComplete(e) {
 			var json = e.message;
-			var url = "http://vocifery.appspot.com/think";
-			$.post("think", {
+			var url = "http://vocifery.appspot.com//think";
+			$.post(url, {
 				corpus : json
 			}).done(function(data) {
 				var candidates = data.candidates;
