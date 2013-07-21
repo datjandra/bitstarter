@@ -121,6 +121,14 @@ p {
 	width: 48px;
 	height: 48px;
 }
+
+#search-result {
+	overflow: auto;
+}
+
+#search-log {
+	overflow: auto;
+}
 </style>
 
 <script type="text/javascript">
@@ -149,9 +157,8 @@ p {
 
 		<!-- Jumbotron -->
 		<div class="jumbotron">
-			<img src="http://vocifery.appspot.com/images/FAQ-icon.png"
-				class="question-mark" alt="" />
-			<form action="http://vocifery.appspot.com//ask" id="query"
+			<img src="http://vocifery.appspot.com/images/FAQ-icon.png" class="question-mark" alt="" />
+			<form action="http://vocifery.appspot.com/ask" id="query"
 				name="query" class="form-search">
 				<input class="input-xxlarge search-query" type="text"
 					maxlength="256" name="question" /> <a class="btn btn-primary"
@@ -161,7 +168,7 @@ p {
 		</div>
 
 		<div class="row-fluid section1">
-			<div class="span6 offset1">
+			<div class="span5 offset1">
 				<p id="search-result"></p>
 			</div>
 			<div class="span4 offset1">
@@ -228,11 +235,11 @@ p {
 					<!-- Social buttons are not included in default Bootstrap. -->
 					<!-- See: http://noizwaves.github.io/bootstrap-social-buttons -->
 					<button class="btn btn-linkedin"
-						onClick="location.href='http://www.linkedin.com/shareArticle?mini=true&url=http%3A//vocifery.herokuapp.com&title=Question%20answering%20app%20built%20for%20Coursera%20Startup%20Engineering%202013'">
+						onClick="location.href='http://www.linkedin.com/shareArticle?mini=true&amp;url=http%3A//vocifery.herokuapp.com&amp;title=Question%20answering%20app%20built%20for%20Coursera%20Startup%20Engineering%202013'">
 						<i class="icon-linkedin"></i> | LinkedIn
 					</button>
 					<button class="btn btn-twitter"
-						onClick="location.href='http://twitter.com/share?text=Question%20answering%20app%20built%20for%20Coursera%20Startup%20Engineering%202013&referrer=http://vocifery.herokuapp.com'">
+						onClick="location.href='http://twitter.com/share?text=Question%20answering%20app%20built%20for%20Coursera%20Startup%20Engineering%202013&amp;referrer=http://vocifery.herokuapp.com'">
 						<i class="icon-twitter"></i> | Twitter
 					</button>
 					<button class="btn btn-facebook"
@@ -331,7 +338,7 @@ p {
 						request.abort();
 					}
 					event.preventDefault();
-					$("#search-result").html("<h2>Searching ...</h2>");
+					$("#search-result").html("<h4>Searching ...</h4>");
 
 					var posting = $.post(url, {
 						question : term
