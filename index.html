@@ -129,6 +129,20 @@ p {
 #search-log {
 	overflow: auto;
 }
+
+.vocifery-info {
+	font-family: inherit;
+  	font-weight: bold;
+  	line-height: 26px;
+  	color: inherit;
+  	font-size: 21.25px;
+  	color: #0063ac;
+  	text-rendering: optimizelegibility;	
+}
+
+.vocifery-info span {
+	padding-left: 20px;
+}
 </style>
 
 <script type="text/javascript">
@@ -167,11 +181,14 @@ p {
 			</form>
 		</div>
 
+		<!-- "Digital image content © 1997-2007 Hemera Technologies Inc., a wholly owned subsidiary of Jupiter Images Corporation. All Rights Reserved". -->
 		<div class="row-fluid section1">
 			<div class="span5 offset1">
+				<span id="wait-search" class="vocifery-info hide"><img src="img/an650.gif" alt="Searching ..."/><span>Searching ...</span></span>
 				<p id="search-result"></p>
 			</div>
 			<div class="span4 offset1">
+				<span id="wait-think" class="vocifery-info hide"><img src="img/an1091.gif" alt="Thinking ..."/><span>Thinking ...</span></span>
 				<p id="search-log"></p>
 			</div>
 		</div>
@@ -310,7 +327,7 @@ p {
 		$(document).on("searchComplete", onSearchComplete);
 		function onSearchComplete(e) {
 			var json = e.message;
-			var url = "http://vocifery.appspot.com//think";
+			var url = "http://vocifery.appspot.com/think";
 			$.post(url, {
 				corpus : json
 			}).done(function(data) {
@@ -320,6 +337,7 @@ p {
 				for ( var i = 0; i < candidates.length; i++) {
 					log.append(candidates[i] + "<br/>");
 				}
+				$("#wait-think").hide();
 			});
 		}
 
@@ -338,7 +356,7 @@ p {
 						request.abort();
 					}
 					event.preventDefault();
-					$("#search-result").html("<h4>Searching ...</h4>");
+					$("#wait-search").show();
 
 					var posting = $.post(url, {
 						question : term
@@ -362,6 +380,8 @@ p {
 						}
 						$("#search-result").append("</ul>");
 
+						$("#wait-search").hide();
+						$("#wait-think").show();
 						$.event.trigger({
 							type : "searchComplete",
 							message : JSON.stringify(data),
