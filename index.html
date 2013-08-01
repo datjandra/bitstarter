@@ -130,6 +130,14 @@ p {
 	overflow: auto;
 }
 
+#search-log ul {
+	list-style-type: none;
+}
+
+#search-log li {
+	padding-bottom: 20px;
+}
+
 .vocifery-info {
 	font-family: inherit;
   	font-weight: bold;
@@ -333,10 +341,12 @@ p {
 			}).done(function(data) {
 				var candidates = data.candidates;
 				var log = $("#search-log");
-				log.empty();
-				for ( var i = 0; i < candidates.length; i++) {
-					log.append(candidates[i] + "<br/>");
+				log.empty().html("<ul>");
+				var list = log.find("ul");
+				for (var i = 0; i < candidates.length; i++) {
+					list.append("<li>" + candidates[i] + "</li>\n");
 				}
+				log.append("</ul>");
 				$("#wait-think").hide();
 			});
 		}
