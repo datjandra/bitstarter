@@ -211,13 +211,15 @@ div.addthis_toolbox {
 
 		<!-- "Digital image content © 1997-2007 Hemera Technologies Inc., a wholly owned subsidiary of Jupiter Images Corporation. All Rights Reserved". -->
 		<div class="row-fluid section1">
-			<div class="span5 offset1">
+			<div id="search-div" class="span5 offset1 hide well">
+				<h5 class="text-left">Search Results</h5>
 				<span id="wait-search" class="vocifery-info hide"><img
 					src="img/an650.gif" alt="Searching ..." /><span>Searching
 						...</span></span>
 				<p id="search-result"></p>
 			</div>
-			<div class="span4 offset1">
+			<div id="answer-div" class="span4 offset1 hide well">
+				<h5 class="text-left">Candidate Answers</h5>
 				<span id="wait-think" class="vocifery-info hide"><img
 					src="img/an1091.gif" alt="Thinking ..." /><span>Thinking
 						...</span></span>
@@ -240,9 +242,13 @@ div.addthis_toolbox {
 				<ul>
 					<li>What caused the Indonesian stock market to halt trading?</li>
 					<li>What causes cancer to metastasize?</li>
+					<li>What is the meaning of life, the universe, and everything?</li>
 					<li>Who assassinated Julius Caesar?</li>
 					<li>Who played Aragorn in Lord of the Rings?</li>
 					<li>Who betrayed Jesus in the gospels?</li>
+					<li>When was Abraham Lincoln assassinated?</li>
+					<li>When does Diwali occur?</li>
+					<li>When did Kate Middleton get married?</li>
 				</ul>
 				</p>
 			</div>
@@ -366,6 +372,7 @@ div.addthis_toolbox {
 						request.abort();
 					}
 					event.preventDefault();
+					$("#search-div").show();
 					$("#wait-search").show();
 
 					var posting = $.post(url, {
@@ -391,6 +398,8 @@ div.addthis_toolbox {
 						$("#search-result").append("</ul>");
 
 						$("#wait-search").hide();
+						
+						$("#answer-div").show();
 						$("#wait-think").show();
 						$.event.trigger({
 							type : "searchComplete",
