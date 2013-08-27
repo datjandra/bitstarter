@@ -247,14 +247,29 @@ div.addthis_toolbox {
 
 		<div class="row-fluid pitch">
 			<div class="span5 offset1">
-				<p>Vocifery is a question answering (QA) engine. It will parse
-					questions and send queries to different content sources on the
-					Internet. The engine then performs semantic analysis on search results to find 
-					candidate answers.</p>
-				<p>
-					Note that this application is still at the "Hello World" stage. 
-					A crowdfunding effort is underway to host the QA engine on more powerful servers.
+				<p>Vocifery is a question answering (QA) engine. 
+				   Questions are parsed for context, and then queries are sent to various Internet search engines.
+				   Search results are further analyzed for candidate answers that best satisfy the question.	
 				</p>
+				<p>
+					For example, a question such as "where can I find Chinese food in San Francisco?" is reformulated to a Yelp search. 
+					A question such as "who assassinated Julius Caesar?" is reformulated to a Wikipedia search.
+					Search results are further analyzed to find text that are likely candidate answers for the question.
+					The answer to question:
+				</p>
+				<p class="well">
+					"Who assassinated Julius Caesar?"
+				</p>
+				<p>
+					could be found in text snippet:
+				</p>
+				<p class="well">
+					"Assassination of Julius Caesar was the result of a conspiracy by many Roman senators who called themselves Liberators".	
+				</p>
+				<p>
+					The snippet and its containing page is therefore presented as a candidate answer.	
+				</p>
+				
 				<p>
 					<h5 class="text-left">Example Questions</h5>
 				<ul>
@@ -405,12 +420,12 @@ div.addthis_toolbox {
 						for ( var i = 0; i < feeds.length; i++) {
 							var feed = feeds[i];
 							var source = feed.source;
-							var snippets = feed.snippets;
-							for ( var j = 0; j < snippets.length; j++) {
-								var snippet = snippets[j];
+							var items = feed.items;
+							for ( var j = 0; j < items.length; j++) {
+								var item = items[j];
 								list.append("<li>(Source: " + source
-										+ ") <a href='" + snippet.a + "'>"
-										+ snippet.a + "</a><br/>" + snippet.b
+										+ ") <a href='" + item.url + "'>"
+										+ item.title + "</a><br/>" + item.snippet
 										+ "</li>");
 							}
 						}
