@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Vocifery</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script
+  src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"
+  type="text/javascript"></script>
+<script src="js/bootstrap.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/bootstrap-responsive.css">
+<link rel="stylesheet" href="css/social-buttons.css">
+<link rel="stylesheet"
+	href="http://netdna.bootstrapcdn.com/font-awesome/3.0.2/css/font-awesome.css">
+
+<style type="text/css">
+/* Large desktop */
+@media ( min-width : 980px) {
+	body {
+		padding-top: 60px;
+	}
+	.linediv-l {
+		border-right: 1px white solid;
+	}
+	.linediv-r {
+		border-left: 1px white solid;
+	}
+}
+
+/* Landscape phones and down */
+@media ( max-width : 480px) {
+	.copy {
+		padding: 2.5% 10%;
+	}
+	.linediv-l {
+		border-bottom: 1px white solid;
+	}
+	.linediv-r {
+		border-top: 1px white solid;
+	}
+}
+
+/* All form factors */
+
+/* Main body and headings */
+body {
+	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+}
+
+.heading,.subheading {
+	font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+	text-align: center;
+}
+
+p.lead {
+	padding-top: 1.5%;
+	font-size: 24px;
+	line-height: 30px;
+}
+
+p {
+	font-size: 18px;
+	line-height: 24px;
+}
+
+/* Video pitch and Action */
+.pitch {
+	padding: 2.5% 0%;
+}
+
+.order {
+	padding: 2% 0%;
+}
+
+.actions {
+	background-color: #343434;
+	padding: 3% 0%;
+}
+
+.video,.thermometer,.order,.social,.statistics {
+	text-align: center;
+}
+
+.statistics h3,.statistics p {
+	color: white;
+}
+
+/* Marketing Copy and Footer */
+.copy {
+	padding-top: 2.5%;
+	padding-bottom: 2.5%;
+	text-align: justify;
+}
+
+.asset {
+	padding: 2.5% 0%;
+}
+
+.footer {
+	color: #cccccc;
+	text-align: center;
+}
+
+.footer p {
+	font-size: 11px;
+}
+
+.footer a {
+	color: #ccccff;
+}
+
+.jumbotron {
+	margin: 80px 0;
+	text-align: center;
+}
+
+.question-mark {
+	width: 48px;
+	height: 48px;
+}
+
+#search-result {
+	overflow: auto;
+}
+
+#search-log {
+	overflow: auto;
+}
+
+#search-log ul {
+	list-style-type: none;
+}
+
+#search-log li {
+	padding-bottom: 20px;
+}
+
+.vocifery-info {
+	font-family: inherit;
+	font-weight: bold;
+	line-height: 26px;
+	color: inherit;
+	font-size: 21.25px;
+	color: #0063ac;
+	text-rendering: optimizelegibility;
+}
+
+.vocifery-info span {
+	padding-left: 20px;
+}
+
+/* http://support.addthis.com/customer/portal/questions/1136093-share-buttons-in-center-position */
+div.addthis_toolbox {
+	width: 180px;
+	margin: 0 auto;
+}
+</style>
+
+<script type="text/javascript">
+	var questionTypes = "when|where|why|who|whom|what|which|how"
+	var pattern = new RegExp("^(" + questionTypes + ")(.+)\\?$", "i");
+	function validateQuestion(question) {
+		if (!pattern.test(question)) {
+			$('#query-validator').modal('show')
+			return false;
+		}
+		return true;
+	}
+</script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-42925454-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</head>
+<body>
+
+	<!-- We use row-fluid inside containers to achieve a resizable layout. -->
+	<!-- blogs.endjin.com/2013/04/tips-for-implementing-responsive-designs-using-bootstrap/ -->
+	<!-- http://stackoverflow.com/a/12270322 -->
+	<div class="container-fluid">
+
+                <div class="navbar navbar-inverse navbar-fixed-top">
+                  <div class="navbar-inner">
+                    <div class="container">
+                      <button type="button" class="btn btn-navbar"
+                        data-toggle="collapse" data-target=".nav-collapse">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                      </button>
+                      <a class="brand" href="#">Vocifery</a>
+                      <div class="nav-collapse collapse">
+                        <ul class="nav">
+                          <li class="active"><a href="#">Home</a></li>
+                          <li><a href="#">About</a></li>
+                          <li><a href="/orders">Donations</a></li>
+                          <li><a href="#">Contact</a></li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+		<!-- Jumbotron -->
+		<div class="jumbotron">
+			<img src="http://vocifery.appspot.com/images/FAQ-icon.png"
+				class="question-mark" alt="" />
+			<form action="http://vocifery.appspot.com/ask" id="query"
+				name="query" class="form-search">
+				<input class="input-xxlarge search-query" type="text"
+					maxlength="256" name="question" /> <a class="btn btn-primary"
+					href="#" onclick="$(this).closest('form').submit()"><i
+					class="icon-bullhorn icon-white"></i> Ask</a>
+			</form>
+		</div>
+
+		<!-- "Digital image content © 1997-2007 Hemera Technologies Inc., a wholly owned subsidiary of Jupiter Images Corporation. All Rights Reserved". -->
+		<div class="row-fluid section1">
+			<div id="search-div" class="span5 offset1 hide well">
+				<h5 class="text-left">Search Results</h5>
+				<span id="wait-search" class="vocifery-info hide"><img
+					src="img/an650.gif" alt="Searching ..." /><span>Searching
+						...</span></span>
+				<p id="search-result"></p>
+			</div>
+			<div id="answer-div" class="span4 offset1 hide well">
+				<h5 class="text-left">Candidate Answers</h5>
+				<span id="wait-think" class="vocifery-info hide"><img
+					src="img/an1091.gif" alt="Thinking ..." /><span>Thinking
+						...</span></span>
+				<p id="search-log"></p>
+			</div>
+		</div>
+
+		<div class="row-fluid pitch">
+			<div class="span5 offset1">
+				<p>Vocifery is a question answering (QA) engine. 
+				   Questions are parsed for context, and then queries are sent to various Internet search engines.
+				   Search results are further analyzed for candidate answers that best satisfy the question.	
+				</p>
+				<p>
+					For example, a question such as "where can I find Chinese food in San Francisco?" is reformulated to a Yelp search. 
+					A question such as "who assassinated Julius Caesar?" is reformulated to a Wikipedia search.
+					Search results are further analyzed to find text that are likely candidate answers for the question.
+					The answer to question:
+				</p>
+				<p class="well">
+					"Who assassinated Julius Caesar?"
+				</p>
+				<p>
+					could be found in text snippet:
+				</p>
+				<p class="well">
+					"Assassination of Julius Caesar was the result of a conspiracy by many Roman senators who called themselves Liberators".	
+				</p>
+				<p>
+					The snippet and its containing page is therefore presented as a candidate answer.	
+				</p>
+				
+				<p>
+					<h5 class="text-left">Example Questions</h5>
+				<ul>
+					<li>Where can I find good barbecue in Kauai?</li>
+					<li>Where can I find hackathon sessions around San Francisco, CA?</li>
+					<li>What caused the Indonesian stock market to halt trading?</li>
+					<li>What causes cancer to metastasize?</li>
+					<li>What is the meaning of life, the universe, and everything?</li>
+					<li>Who assassinated Julius Caesar?</li>
+					<li>Who betrayed Jesus in the gospels?</li>
+					<li>When was Abraham Lincoln assassinated?</li>
+					<li>When does Diwali occur?</li>
+					<li>When did Kate Middleton get married?</li>
+				</ul>
+				</p>
+			</div>
+
+			<!-- We define a new 'actions' div to contain statistics, order, and share buttons.-->
+			<div class="span5 actions">
+				<div class="span8 offset2">
+					<div class="statistics">
+						<div class="span4">
+							<!-- linediv-l and linediv-r give dividing lines that look
+                different in horizontal and vertical layouts, illustrating
+                media queries. -->
+							<div class="linediv-l">
+								<h3>1000</h3>
+								<p>backers</p>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="linediv-c">
+								<h3>$6000</h3>
+								<p>of $10,000</p>
+							</div>
+						</div>
+						<div class="span4">
+							<div class="linediv-r">
+								<h3>10</h3>
+								<p>days left</p>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="span10 offset1">
+					<!-- Bootstrap progress bar -->
+					<!-- http://twitter.github.io/bootstrap/components.html#progress -->
+					<div class="thermometer progress active">
+						<div class="bar bar-success" style="width: 60%;"></div>
+						<div class="bar bar-warning" style="width: 40%;"></div>
+					</div>
+				</div>
+				<div class="span6 offset3 order">
+					<!-- Standard Bootstrap button. -->
+					<!-- http://twitter.github.io/bootstrap/base-css.html#buttons -->
+					<a class="coinbase-button" data-code="f60c4c2b19bf34210244972f34889852" data-button-style="donation_large" href="https://coinbase.com/checkouts/f60c4c2b19bf34210244972f34889852">Donate Bitcoins</a>
+					<script src="https://coinbase.com/assets/button.js" type="text/javascript"></script>
+					
+				</div>
+				<div class="span8 offset2 social">
+					<!-- AddThis Button BEGIN -->
+					<div class="addthis_toolbox addthis_default_style addthis_32x32_style">
+					<a class="addthis_button_linkedin"></a>
+					<a class="addthis_button_facebook"></a>
+					<a class="addthis_button_twitter"></a>
+					<a class="addthis_counter addthis_bubble_style"></a>
+					</div>
+					<script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+					<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51fc971a672b058a"></script>
+					<!-- AddThis Button END -->
+				</div>
+			</div>
+		</div>
+
+		<!-- Not crucial, but we put this under a CC By-SA 3.0 license. -->
+		<!-- http://creativecommons.org/licenses/ -->
+		<div class="row-fluid footer">
+			<div class="span12">
+				<p>
+					This work is licensed under the <a
+						href="http://creativecommons.org/licenses/by-sa/3.0/">CC By-SA
+						3.0 </a>, without all the cruft that would otherwise be put at the
+					bottom of the page.
+				</p>
+			</div>
+		</div>
+
+	</div>
+
+	<div id="query-validator" class="modal hide fade">
+		<div class="modal-body">
+			<p>Question must begin with one of
+				when|where|why|who|whom|what|which|how and end with question mark.</p>
+		</div>
+		<div class="modal-footer">
+			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		var request;
+
+		$(document).on("searchComplete", onSearchComplete);
+		function onSearchComplete(e) {
+			var json = e.message;
+			var url = "http://vocifery.appspot.com/think";
+			$.post(url, {
+				corpus : json
+			}).done(function(data) {
+				var candidates = data.candidates;
+				var log = $("#search-log");
+				log.empty().html("<ul>");
+				var list = log.find("ul");
+				for ( var i = 0; i < candidates.length; i++) {
+					list.append("<li>" + candidates[i] + "</li>\n");
+				}
+				log.append("</ul>");
+				$("#wait-think").hide();
+			});
+		}
+
+		$("#query").submit(
+				function(event) {
+					var $form = $(this), term = $form.find(
+							'input[name="question"]').val(), url = $form
+							.attr('action');
+
+					if (!validateQuestion(term)) {
+						event.preventDefault();
+						return false;
+					}
+
+					if (request) {
+						request.abort();
+					}
+					event.preventDefault();
+					$("#search-div").show();
+					$("#wait-search").show();
+
+					var posting = $.post(url, {
+						question : term
+					});
+					posting.done(function(data) {
+						$("#search-result").empty().html("<ul>")
+						var list = $("#search-result").find("ul");
+
+						var feeds = data.feeds;
+						for ( var i = 0; i < feeds.length; i++) {
+							var feed = feeds[i];
+							var source = feed.source;
+							var items = feed.items;
+							for ( var j = 0; j < items.length; j++) {
+								var item = items[j];
+								list.append("<li>(Source: " + source
+										+ ") <a href='" + item.url + "'>"
+										+ item.title + "</a><br/>" + item.snippet
+										+ "</li>");
+							}
+						}
+						$("#search-result").append("</ul>");
+
+						$("#wait-search").hide();
+						
+						$("#answer-div").show();
+						$("#wait-think").show();
+						$.event.trigger({
+							type : "searchComplete",
+							message : JSON.stringify(data),
+							time : new Date()
+						});
+					});
+
+					return false;
+				});
+	</script>
+
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	
+	  ga('create', 'UA-42925454-1', 'herokuapp.com');
+	  ga('send', 'pageview');
+	</script>
+</body>
+</html>
