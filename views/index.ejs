@@ -285,6 +285,14 @@ div.addthis_toolbox {
 					<li>When did Kate Middleton get married?</li>
 				</ul>
 				</p>
+				<p>
+					<h5 class="text-left">Notes</h5>
+				<ol>
+					<li>Error handling has not been implemented. Reload the page if search takes too long.</li>
+					<li>Yelp and Eventbrite searches have rate limits on number of requests per day.</li>
+					<li>Should received donations exceed $100 then half will be donated to <a href="http://www.worldvision.com.au/40hourfamine.aspx">charity</a>.</li>
+                                </ol>
+                                </p>
 			</div>
 
 			<!-- We define a new 'actions' div to contain statistics, order, and share buttons.-->
@@ -292,7 +300,7 @@ div.addthis_toolbox {
                         <%
                           var backers = 0;
                           var donations = 0;
-                          var bitcoins = 10;
+                          var bitcoins = 100;
                         %>
 
                         <% for (var i=0; i<orders.length; i++) { %>
