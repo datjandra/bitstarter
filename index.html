@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Vocifery</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script
+  src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"
+  type="text/javascript"></script>
+<script src="js/bootstrap.js" type="text/javascript"></script>
+
+<link rel="stylesheet" href="css/bootstrap.css">
+<link rel="stylesheet" href="css/bootstrap-responsive.css">
+<link rel="stylesheet" href="css/social-buttons.css">
+<link rel="stylesheet"
+	href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
+
+<style type="text/css">
+body {
+	background: transparent url(img/background.jpg) center center fixed;
+	-webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+	color: #EEEEEE;
+	font-family: 'Roboto', sans-serif;
+}
+
+/* Large desktop */
+@media ( min-width : 980px) {
+	body {
+		padding-top: 60px;
+	}
+	.linediv-l {
+		border-right: 1px white solid;
+	}
+	.linediv-r {
+		border-left: 1px white solid;
+	}
+}
+
+/* Landscape phones and down */
+@media ( max-width : 480px) {
+	.copy {
+		padding: 2.5% 10%;
+	}
+	.linediv-l {
+		border-bottom: 1px white solid;
+	}
+	.linediv-r {
+		border-top: 1px white solid;
+	}
+}
+
+/* All form factors */
+
+/* Main body and headings */
+body {
+	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
+}
+
+.heading,.subheading {
+	font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
+	text-align: center;
+}
+
+p.lead {
+	padding-top: 1.5%;
+	font-size: 24px;
+	line-height: 30px;
+}
+
+p {
+	font-size: 18px;
+	line-height: 24px;
+}
+
+/* Video pitch and Action */
+.pitch {
+	padding: 2.5% 0%;
+}
+
+.order {
+	padding: 2% 0%;
+}
+
+.actions {
+	background-color: #343434;
+	padding: 3% 0%;
+}
+
+.video,.thermometer,.order,.social,.statistics {
+	text-align: center;
+}
+
+.statistics h3,.statistics p {
+	color: white;
+}
+
+/* Marketing Copy and Footer */
+.copy {
+	padding-top: 2.5%;
+	padding-bottom: 2.5%;
+	text-align: justify;
+}
+
+.asset {
+	padding: 2.5% 0%;
+}
+
+.footer {
+	color: #cccccc;
+	text-align: center;
+}
+
+.footer p {
+	font-size: 11px;
+}
+
+.footer a {
+	color: #ccccff;
+}
+
+.jumbotron {
+	margin: 80px 0;
+	text-align: center;
+}
+
+.question-mark {
+	width: 48px;
+	height: 48px;
+}
+
+#search-result {
+	overflow: auto;
+}
+
+#search-log {
+	overflow: auto;
+}
+
+#search-log ul {
+	list-style-type: none;
+}
+
+#search-log li {
+	padding-bottom: 20px;
+}
+
+.vocifery-info {
+	font-family: inherit;
+	font-weight: bold;
+	line-height: 26px;
+	color: inherit;
+	font-size: 21.25px;
+	color: #0063ac;
+	text-rendering: optimizelegibility;
+}
+
+.vocifery-info span {
+	padding-left: 20px;
+}
+
+/* http://support.addthis.com/customer/portal/questions/1136093-share-buttons-in-center-position */
+div.addthis_toolbox {
+	width: 180px;
+	margin: 0 auto;
+}
+
+.center {
+	text-align: center;
+}
+
+.header {
+	color: #FFFFFF;
+	font-size: 20px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: normal;
+	line-height: 1.4;
+	text-shadow: rgba(0, 0, 0, 0.658824) 0 1px 2px;
+}
+
+.heading {
+  font-size: 64px;
+  font-weight: bold;
+  line-height: 64px;
+  margin-bottom: 30px;
+  margin-top: 100px;
+  text-shadow: rgba(0, 0, 0, 0.498039) 0 2px 5px;
+}
+
+.vpad {
+	padding: 30px 0;
+}
+
+.detail {
+  color: #EEEEEE;
+  font-size: 20px;
+  font-weight: 300;
+  line-height: 1.25;
+  margin-bottom: 40px;
+}
+
+.detail h1 {
+  font-size: 60px;
+  font-weight: 300;
+  letter-spacing: -1px;
+  line-height: 1;
+  margin: 10px 0 10px;
+  color: #EEEEEE;
+}
+
+.detail h1 span {
+}
+
+.detail h2,
+.detail h3 {
+  font-weight: 200;
+  margin-bottom: 5px;
+}
+
+.detail p {
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 100;
+}
+
+.detail img {
+  margin: 5px auto;
+}
+
+.detail ul {
+  list-style-type: none;
+}
+
+.detail li {
+  font-size: 14px;
+}
+
+.white {
+	background-color: #333333;
+}
+
+.purple {
+	background-color: #9B95D4;
+}
+
+.blue {
+	background-color: #1581F5;
+}
+
+.green {
+	background-color: #C1D739;
+}
+
+.well {
+	color: #333333;	
+}
+
+.filler {
+	visibility: hidden;
+}
+</style>
+
+<script type="text/javascript">
+	var questionTypes = "when|where|why|who|whom|what|which|how"
+	var pattern = new RegExp("^(" + questionTypes + ")(.+)\\?$", "i");
+	function validateQuestion(question) {
+		if (!pattern.test(question)) {
+			$('#query-validator').modal('show')
+			return false;
+		}
+		return true;
+	}
+</script>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-42925454-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+</head>
+<body>
+
+	<header>
+		<div class="navbar navbar-inverse navbar-fixed-top">
+			<div class="navbar-inner">
+				<div class="container">
+					<button type="button" class="btn btn-navbar" data-toggle="collapse"
+						data-target=".nav-collapse">
+						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+							class="icon-bar"></span>
+					</button>
+					<div class="nav-collapse collapse">
+						<ul class="nav">
+							<li class="active"><a href="#">Home</a></li>
+							<li><a class="addthis_button_linkedin"></a></li>
+							<li><a class="addthis_button_facebook"></a></li>
+							<li><a class="addthis_button_twitter"></a></li>
+						</ul>
+					</div>
+					<script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+					<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51fc971a672b058a"></script>
+					<!--/.nav-collapse -->
+				</div>
+			</div>
+		</div>
+
+		<div class="container">
+			<div class="row-fluid center vpad">
+				<img src="http://vocifery.appspot.com/images/FAQ-icon.png"
+					class="question-mark" alt="" />
+				<form action="http://vocifery.appspot.com/ask" id="query"
+					name="query" class="form-search">
+				<input class="input-xxlarge search-query" type="text"
+					maxlength="256" name="question" /> <a class="btn btn-primary"
+					href="#" onclick="$(this).closest('form').submit()"><i
+					class="icon-bullhorn icon-white"></i> Ask</a>
+				</form>
+			</div>	
+		</div>
+
+	</header>
+
+	<!-- We use row-fluid inside containers to achieve a resizable layout. -->
+	<!-- blogs.endjin.com/2013/04/tips-for-implementing-responsive-designs-using-bootstrap/ -->
+	<!-- http://stackoverflow.com/a/12270322 -->
+	<div class="container-fluid">
+		<!-- "Digital image content © 1997-2007 Hemera Technologies Inc., a wholly owned subsidiary of Jupiter Images Corporation. All Rights Reserved". -->
+		<div class="row-fluid section1">
+			<div id="search-div" class="span5 offset1 hide well">
+				<h5 class="text-left">Search Results</h5>
+				<span id="wait-search" class="vocifery-info hide"><img
+					src="img/an650.gif" alt="Searching ..." /><span>Searching
+						...</span></span>
+				<p id="search-result"></p>
+			</div>
+			<div id="answer-div" class="span4 offset1 hide well">
+				<h5 class="text-left">Candidate Answers</h5>
+				<span id="wait-think" class="vocifery-info hide"><img
+					src="img/an1091.gif" alt="Thinking ..." /><span>Thinking
+						...</span></span>
+				<p id="search-log"></p>
+			</div>
+		</div>
+
+		<div class="row-fluid center vpad">
+			<div class="span12">
+				<p class="filler">
+				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
+				Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
+				Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
+				Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+				&nbsp;
+				Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. 
+				Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit amet, 
+				consectetur, adipisci[ng] velit, sed quia non numquam [do] eius modi tempora inci[di]dunt, ut labore et dolore magnam aliquam quaerat voluptatem. 
+				Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? 
+				Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?
+				</p>
+			</div>
+		</div>
+	</div>
+	
+	<div class="white detail">
+		<div class="container-fluid">
+			<!-- Services -->
+			<div class="row-fluid">
+				<div class="span4 center">
+					<h3 class="blue">Description</h3>
+					<p>Vocifery is a question answering (QA) engine. 
+				   	Questions are parsed for context, and then queries are sent to various Internet search engines.
+				   	Search results are further analyzed for candidate answers that best satisfy the question.	
+					</p>
+				</div>
+
+				<div class="span4 center">
+					<h3 class="green">Sample Questions</h3>
+					<ul>
+						<li>How fast is the speed of light?</li>
+						<li>Where is the wettest spot on earth?</li>
+						<li>Who assassinated Julius Caesar?</li>
+						<li>When does Diwali occur?</li>
+						<li>What is the meaning of life, the universe, and everything?</li>
+					</ul>
+				</div>
+
+				<div class="span4 center">
+					<h3 class="purple">Notes</h3>
+					<ul>
+						<li>Most requests take 30 seconds or less. Reload page ff request takes longer than 90 seconds.</li>
+						<li>This work is at prototype stage, and will be improved iteratively.</li>
+					</ul>
+				</div>
+			</div>
+			<!-- /Services -->
+
+			<div class="row-fluid center footer">This work is licensed under the <a
+						href="http://creativecommons.org/licenses/by-sa/3.0/">CC By-SA
+						3.0 </a>, without all the cruft that would otherwise be put at the
+					bottom of the page.</div>
+		</div>
+	</div>
+
+	<div id="query-validator" class="modal hide fade">
+		<div class="modal-body">
+			<p>Question must begin with one of
+				when|where|why|who|whom|what|which|how and end with question mark.</p>
+		</div>
+		<div class="modal-footer">
+			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+		</div>
+	</div>
+
+	<script type="text/javascript">
+		var request;
+
+		$(document).on("searchComplete", onSearchComplete);
+		function onSearchComplete(e) {
+			var json = e.message;
+			var url = "http://vocifery.appspot.com/think";
+			$.post(url, {
+				corpus : json
+			}).done(function(data) {
+				var candidates = data.candidates;
+				var log = $("#search-log");
+				log.empty().html("<ul>");
+				var list = log.find("ul");
+				for ( var i = 0; i < candidates.length; i++) {
+					list.append("<li>" + candidates[i] + "</li>\n");
+				}
+				log.append("</ul>");
+				$("#wait-think").hide();
+			});
+		}
+
+		$("#query").submit(
+				function(event) {
+					var $form = $(this), term = $form.find(
+							'input[name="question"]').val(), url = $form
+							.attr('action');
+
+					if (!validateQuestion(term)) {
+						event.preventDefault();
+						return false;
+					}
+
+					if (request) {
+						request.abort();
+					}
+					event.preventDefault();
+					$("#search-div").show();
+					$("#wait-search").show();
+
+					var posting = $.post(url, {
+						question : term
+					});
+					posting.done(function(data) {
+						$("#search-result").empty().html("<ul>")
+						var list = $("#search-result").find("ul");
+
+						var feeds = data.feeds;
+						for ( var i = 0; i < feeds.length; i++) {
+							var feed = feeds[i];
+							var source = feed.source;
+							var items = feed.items;
+							for ( var j = 0; j < items.length; j++) {
+								var item = items[j];
+								list.append("<li>(Source: " + source
+										+ ") <a href='" + item.url + "'>"
+										+ item.title + "</a><br/>" + item.snippet
+										+ "</li>");
+							}
+						}
+						$("#search-result").append("</ul>");
+
+						$("#wait-search").hide();
+						
+						$("#answer-div").show();
+						$("#wait-think").show();
+						$.event.trigger({
+							type : "searchComplete",
+							message : JSON.stringify(data),
+							time : new Date()
+						});
+					});
+
+					return false;
+				});
+	</script>
+
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+	
+	  ga('create', 'UA-42925454-1', 'herokuapp.com');
+	  ga('send', 'pageview');
+	</script>
+</body>
+</html>
