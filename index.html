@@ -255,7 +255,7 @@ div.addthis_toolbox {
 	background-color: #C1D739;
 }
 
-.well {
+.well, .modal-body {
 	color: #333333;	
 }
 
@@ -296,36 +296,29 @@ div.addthis_toolbox {
 		<div class="navbar navbar-inverse navbar-fixed-top">
 			<div class="navbar-inner">
 				<div class="container">
-					<button type="button" class="btn btn-navbar" data-toggle="collapse"
-						data-target=".nav-collapse">
-						<span class="icon-bar"></span> <span class="icon-bar"></span> <span
-							class="icon-bar"></span>
-					</button>
-					<div class="nav-collapse collapse">
-						<ul class="nav">
-							<li class="active"><a href="#">Home</a></li>
+					<div class="nav-collapse collapse social">
+						<!-- AddThis Button BEGIN -->
+						<ul class="nav addthis_toolbox addthis_default_style addthis_32x32_style pull-right">
 							<li><a class="addthis_button_linkedin"></a></li>
 							<li><a class="addthis_button_facebook"></a></li>
 							<li><a class="addthis_button_twitter"></a></li>
 						</ul>
+						<script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+						<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51fc971a672b058a"></script>
+						<!-- AddThis Button END -->
 					</div>
-					<script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
-					<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51fc971a672b058a"></script>
-					<!--/.nav-collapse -->
 				</div>
 			</div>
 		</div>
 
 		<div class="container">
 			<div class="row-fluid center vpad">
-				<img src="http://vocifery.appspot.com/images/FAQ-icon.png"
-					class="question-mark" alt="" />
-				<form action="http://vocifery.appspot.com/ask" id="query"
+				<form action="#" id="query"
 					name="query" class="form-search">
 				<input class="input-xxlarge search-query" type="text"
-					maxlength="256" name="question" /> <a class="btn btn-primary"
+					maxlength="256" id="question" name="question" /> <a class="btn btn-primary"
 					href="#" onclick="$(this).closest('form').submit()"><i
-					class="icon-bullhorn icon-white"></i> Ask</a>
+					class="icon-bullhorn"></i> Ask</a>
 				</form>
 			</div>	
 		</div>
@@ -336,6 +329,27 @@ div.addthis_toolbox {
 	<!-- blogs.endjin.com/2013/04/tips-for-implementing-responsive-designs-using-bootstrap/ -->
 	<!-- http://stackoverflow.com/a/12270322 -->
 	<div class="container-fluid">
+		<div class="row-fluid">
+			<div id="question-parse" class="span10 offset1 hide well">
+			<h5 class="text-left">Question Context</h5>
+			<span id="wait-parse" class="vocifery-info hide"><img
+					src="img/an067.gif" alt="Parsing ..." /><span>Parsing
+						...</span></span>
+			<table class="table table-bordered table-condensed">
+				<thead>
+        			<tr>
+            			<th>Answer Type</th>
+            			<th>Focus</th>
+            			<th>Domain</th>
+            			<th>Entity</th>
+            			<th>Property</th>
+        			</tr>
+    			</thead>
+    			<tbody id="question-segment">
+    			</tbody>
+			</table>
+			</div>	
+		</div>
 		<!-- "Digital image content © 1997-2007 Hemera Technologies Inc., a wholly owned subsidiary of Jupiter Images Corporation. All Rights Reserved". -->
 		<div class="row-fluid section1">
 			<div id="search-div" class="span5 offset1 hide well">
@@ -374,7 +388,6 @@ div.addthis_toolbox {
 	
 	<div class="white detail">
 		<div class="container-fluid">
-			<!-- Services -->
 			<div class="row-fluid">
 				<div class="span4 center">
 					<h3 class="blue">Description</h3>
@@ -387,6 +400,7 @@ div.addthis_toolbox {
 				<div class="span4 center">
 					<h3 class="green">Sample Questions</h3>
 					<ul>
+						<li>How fast is the speed of light?</li>
 						<li>Where is the wettest spot on earth?</li>
 						<li>Who assassinated Julius Caesar?</li>
 						<li>When does Diwali occur?</li>
@@ -397,17 +411,18 @@ div.addthis_toolbox {
 				<div class="span4 center">
 					<h3 class="purple">Notes</h3>
 					<ul>
-						<li>Most requests take 30 seconds or less. Reload page ff request takes longer than 90 seconds.</li>
 						<li>This work is at prototype stage, and will be improved iteratively.</li>
+						<li>Most requests take 30 seconds or less. Reload page if request takes longer than 90 seconds.</li>
 					</ul>
 				</div>
 			</div>
-			<!-- /Services -->
 
-			<div class="row-fluid center footer">This work is licensed under the <a
-						href="http://creativecommons.org/licenses/by-sa/3.0/">CC By-SA
-						3.0 </a>, without all the cruft that would otherwise be put at the
+			<div class="row-fluid">
+				<div class="center footer">This work is licensed under the 
+					<a href="http://creativecommons.org/licenses/by-sa/3.0/">CC By-SA
+					3.0 </a>, without all the cruft that would otherwise be put at the
 					bottom of the page.</div>
+			</div>		
 		</div>
 	</div>
 
@@ -423,14 +438,22 @@ div.addthis_toolbox {
 
 	<script type="text/javascript">
 		var request;
-
-		$(document).on("searchComplete", onSearchComplete);
-		function onSearchComplete(e) {
-			var json = e.message;
-			var url = "http://vocifery.appspot.com/think";
-			$.post(url, {
-				corpus : json
-			}).done(function(data) {
+		var questionUrl = "http://vocifery.appspot.com/question";
+		var searchUrl = "http://vocifery.appspot.com/search";
+		var thinkUrl = "http://vocifery.appspot.com/think";
+		
+		function fireEvent(event, input, url, task) {
+			return task(event, input, url);
+		}
+		
+		var findAnswer = function(event, input, url) {
+			$("#answer-div").show();
+			$("#wait-think").show();
+			var posting = $.post(url, {
+				corpus : JSON.stringify(input)
+			});
+			
+			posting.done(function(data) {
 				var candidates = data.candidates;
 				var log = $("#search-log");
 				log.empty().html("<ul>");
@@ -442,60 +465,74 @@ div.addthis_toolbox {
 				$("#wait-think").hide();
 			});
 		}
+		
+		var runSearch = function(event, input,  url) {
+			$("#search-div").show();
+			$("#wait-search").show();
+			var posting = $.post(url, {
+				query : JSON.stringify(input)
+			});
+			
+			posting.done(function(response) {
+				$("#search-result").empty().html("<ul>")
+				var list = $("#search-result").find("ul");
 
-		$("#query").submit(
-				function(event) {
-					var $form = $(this), term = $form.find(
-							'input[name="question"]').val(), url = $form
-							.attr('action');
-
-					if (!validateQuestion(term)) {
-						event.preventDefault();
-						return false;
+				var feeds = response.feeds;
+				for (var i = 0; i < feeds.length; i++) {
+					var feed = feeds[i];
+					var source = feed.source;
+					var items = feed.items;
+					for ( var j = 0; j < items.length; j++) {
+						var item = items[j];
+						list.append("<li>(Source: " + source
+								+ ") <a href='" + item.url + "'>"
+								+ item.title + "</a><br/>" + item.snippet
+								+ "</li>");
 					}
+				}
+				$("#search-result").append("</ul>");
+				$("#wait-search").hide();
+				fireEvent(event, response, thinkUrl, findAnswer);
+			});
+		}
+		
+		var askQuestion = function(event, input, url) {
+			if (!validateQuestion(input)) {
+				event.preventDefault();
+				return false;
+			}
 
-					if (request) {
-						request.abort();
-					}
-					event.preventDefault();
-					$("#search-div").show();
-					$("#wait-search").show();
-
-					var posting = $.post(url, {
-						question : term
-					});
-					posting.done(function(data) {
-						$("#search-result").empty().html("<ul>")
-						var list = $("#search-result").find("ul");
-
-						var feeds = data.feeds;
-						for ( var i = 0; i < feeds.length; i++) {
-							var feed = feeds[i];
-							var source = feed.source;
-							var items = feed.items;
-							for ( var j = 0; j < items.length; j++) {
-								var item = items[j];
-								list.append("<li>(Source: " + source
-										+ ") <a href='" + item.url + "'>"
-										+ item.title + "</a><br/>" + item.snippet
-										+ "</li>");
-							}
-						}
-						$("#search-result").append("</ul>");
-
-						$("#wait-search").hide();
-						
-						$("#answer-div").show();
-						$("#wait-think").show();
-						$.event.trigger({
-							type : "searchComplete",
-							message : JSON.stringify(data),
-							time : new Date()
-						});
-					});
-
-					return false;
-				});
+			if (request) {
+				request.abort();
+			}
+			event.preventDefault();
+			
+			$("#question-parse").show();
+			$("#wait-parse").show();
+			var posting = $.post(url, {
+				query : input
+			});
+			
+			posting.done(function(response) {
+				var row = "<tr><td>" + response.semanticRoles.ANSWER_TYPE 
+				 		 + "</td><td>" + response.semanticRoles.FOCUS
+				 		 + "</td><td>" + response.semanticRoles.FOCUS_DOMAIN
+						 + "</td><td>" + response.semanticRoles.ANSWER_TYPE_ENTITY
+						 + "</td><td>" + response.semanticRoles.ANSWER_TYPE_PROPERTY
+						 + "</td></tr>";
+				$("#question-segment").empty().html(row);
+				$("#wait-parse").hide();
+				fireEvent(event, response, searchUrl, runSearch);
+			});
+		}
+		
+		$("#query").submit(	
+			function(event) {
+				var input = $(this).find('input[name="question"]').val();
+				fireEvent(event, input, questionUrl, askQuestion);
+				return false;		
+			}
+		);
 	</script>
 
 	<script>
