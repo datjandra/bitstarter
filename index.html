@@ -10,15 +10,17 @@
   type="text/javascript"></script>
 <script src="js/bootstrap.js" type="text/javascript"></script>
 
+<link rel="stylesheet" href="css/social-buttons.css">
 <link rel="stylesheet" href="css/bootstrap.css">
 <link rel="stylesheet" href="css/bootstrap-responsive.css">
-<link rel="stylesheet" href="css/social-buttons.css">
-<link rel="stylesheet"
-	href="http://netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css">
 
 <style type="text/css">
+html {
+	height: 100%;
+}
+
 body {
-	
+	height: 100%;
 	color: #EEEEEE;
 	font-family: 'Roboto', sans-serif;
 }
@@ -52,10 +54,6 @@ body {
 /* All form factors */
 
 /* Main body and headings */
-body {
-	font-family: 'Open Sans', Helvetica, Arial, sans-serif;
-}
-
 .heading,.subheading {
 	font-family: 'Ubuntu', Helvetica, Arial, sans-serif;
 	text-align: center;
@@ -121,11 +119,6 @@ p {
 .jumbotron {
 	margin: 80px 0;
 	text-align: center;
-}
-
-.question-mark {
-	width: 48px;
-	height: 48px;
 }
 
 #search-result {
@@ -197,6 +190,7 @@ div.addthis_toolbox {
   font-weight: 300;
   line-height: 1.25;
   margin-bottom: 40px;
+  padding: 10px;
 }
 
 .detail h1 {
@@ -232,7 +226,7 @@ div.addthis_toolbox {
 }
 
 .detail li {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .white {
@@ -255,8 +249,21 @@ div.addthis_toolbox {
 	color: #333333;	
 }
 
-.filler {
-	visibility: hidden;
+#main {
+	padding-bottom: 360px; 
+}
+
+#wrapper {
+	min-height: 100%;
+    position: relative;
+}
+
+footer {
+	height: 360px; 
+    width:100%;
+    position: absolute;
+    left: 0;
+    bottom: 0; 
 }
 </style>
 
@@ -288,142 +295,127 @@ div.addthis_toolbox {
 </head>
 <body>
 
-	<header>
-		<div class="navbar navbar-inverse navbar-fixed-top">
-			<div class="navbar-inner">
-				<div class="container">
-					<div class="nav-collapse collapse social">
-						<!-- AddThis Button BEGIN -->
-						<ul class="nav addthis_toolbox addthis_default_style addthis_32x32_style pull-right">
-							<li><a class="addthis_button_linkedin"></a></li>
-							<li><a class="addthis_button_facebook"></a></li>
-							<li><a class="addthis_button_twitter"></a></li>
-						</ul>
-						<script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
-						<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51fc971a672b058a"></script>
-						<!-- AddThis Button END -->
+	<div id="wrapper">
+		<header>
+			<div class="navbar navbar-inverse navbar-fixed-top">
+				<div class="navbar-inner">
+					<div class="container">
+						<div class="nav-collapse collapse social">
+							<!-- AddThis Button BEGIN -->
+							<ul class="nav addthis_toolbox addthis_default_style addthis_32x32_style pull-right">
+								<li><a class="addthis_button_linkedin"></a></li>
+								<li><a class="addthis_button_facebook"></a></li>
+								<li><a class="addthis_button_twitter"></a></li>
+							</ul>
+							<script type="text/javascript">var addthis_config = {"data_track_addressbar":true};</script>
+							<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-51fc971a672b058a"></script>
+							<!-- AddThis Button END -->
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
-
-		<div class="container">
-			<div class="row-fluid center vpad">
-				<form action="#" id="query"
-					name="query" class="form-search">
-				<input class="input-xxlarge search-query" type="text"
-					maxlength="256" id="question" name="question" /> <a class="btn btn-primary"
-					href="#" onclick="$(this).closest('form').submit()"><i
-					class="icon-bullhorn"></i> Ask</a>
-				</form>
-			</div>	
-		</div>
-
-	</header>
-
-	<!-- We use row-fluid inside containers to achieve a resizable layout. -->
-	<!-- blogs.endjin.com/2013/04/tips-for-implementing-responsive-designs-using-bootstrap/ -->
-	<!-- http://stackoverflow.com/a/12270322 -->
-	<div class="container-fluid">
-		<div class="row-fluid">
-			<div id="question-parse" class="span10 offset1 hide well">
-			<h5 class="text-left">Question Context</h5>
-			<span id="wait-parse" class="vocifery-info hide"><img
-					src="img/355.gif" alt="Parsing ..." /><span>Parsing
-						...</span></span>
-			<table class="table table-bordered table-condensed">
-				<thead>
-        			<tr>
-            			<th>Answer Type</th>
-            			<th>Focus</th>
-            			<th>Domain</th>
-            			<th>Entity</th>
-            			<th>Property</th>
-        			</tr>
-    			</thead>
-    			<tbody id="question-segment">
-    			</tbody>
-			</table>
-			</div>	
-		</div>
-		<!-- Animated icons from http://preloaders.net -->
-		<div class="row-fluid section1">
-			<div id="search-div" class="span5 offset1 hide well">
-				<h5 class="text-left">Search Results</h5>
-				<span id="wait-search" class="vocifery-info hide"><img
-					src="img/355.gif" alt="Searching ..." /><span>Searching
-						...</span></span>
-				<p id="search-result"></p>
-			</div>
-			<div id="answer-div" class="span4 offset1 hide well">
-				<h5 class="text-left">Candidate Answers</h5>
-				<span id="wait-think" class="vocifery-info hide"><img
-					src="img/355.gif" alt="Thinking ..." /><span>Thinking
-						...</span></span>
-				<p id="search-log"></p>
-			</div>
-		</div>
-
-		<div class="row-fluid center vpad">
-			<div class="span12">
-				<p class="filler">
-				Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. 
-				Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-				Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. 
-				Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-				</p>
-				<p class="filler">
-				&nbsp;
-				Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt, explicabo. 
-				Nemo enim ipsam voluptatem, quia voluptas sit, aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos, qui ratione voluptatem sequi nesciunt, neque porro quisquam est, qui dolorem ipsum, quia dolor sit amet, 
-				consectetur, adipisci[ng] velit, sed quia non numquam [do] eius modi tempora inci[di]dunt, ut labore et dolore magnam aliquam quaerat voluptatem. 
-				Ut enim ad minima veniam, quis nostrum exercitationem ullam corporis suscipit laboriosam, nisi ut aliquid ex ea commodi consequatur? 
-				Quis autem vel eum iure reprehenderit, qui in ea voluptate velit esse, quam nihil molestiae consequatur, vel illum, qui dolorem eum fugiat, quo voluptas nulla pariatur?
-				</p>
-			</div>
-		</div>
-	</div>
 	
-	<div class="white detail">
-		<div class="container-fluid">
-			<div class="row-fluid">
-				<div class="span4 center">
-					<h3 class="blue">Description</h3>
-					<p>Vocifery is a question answering (QA) engine. 
-				   	Questions are parsed for context, and then queries are sent to various Internet search engines.
-				   	Search results are further analyzed for candidate answers that best satisfy the question.	
-					</p>
+			<div class="container">
+				<div class="row-fluid center vpad">
+					<form action="#" id="query"
+						name="query" class="form-search">
+					<input class="input-xxlarge search-query" type="text"
+						maxlength="256" id="question" name="question" /> <a class="btn btn-primary"
+						href="#" onclick="$(this).closest('form').submit()"><i
+						class="icon-bullhorn"></i> Ask</a>
+					</form>
+				</div>	
+			</div>
+			
+			<div class="container-fluid">
+				<!-- Animated icons from http://preloaders.net -->
+				<div class="row-fluid">
+					<div id="question-parse" class="span10 offset1 hide well">
+					<h5 class="text-left">Question Context</h5>
+					<span id="wait-parse" class="vocifery-info hide"><img
+							src="img/355.gif" alt="Parsing ..." /><span>Parsing
+								...</span></span>
+					<table class="table table-bordered table-condensed">
+						<thead>
+		        			<tr>
+		            			<th>Answer Type</th>
+		            			<th>Focus</th>
+		            			<th>Domain</th>
+		            			<th>Entity</th>
+		            			<th>Property</th>
+		        			</tr>
+		    			</thead>
+		    			<tbody id="question-segment">
+		    			</tbody>
+					</table>
+					</div>	
 				</div>
-
-				<div class="span4 center">
-					<h3 class="green">Sample Questions</h3>
-					<ul>
-						<li>How fast is the speed of light?</li>
-						<li>Where is the wettest spot on earth?</li>
-						<li>Who assassinated Julius Caesar?</li>
-						<li>When does Diwali occur?</li>
-						<li>What is the meaning of life, the universe, and everything?</li>
-					</ul>
-				</div>
-
-				<div class="span4 center">
-					<h3 class="purple">Notes</h3>
-					<ul>
-						<li>This work is at prototype stage, and will be improved iteratively.</li>
-						<li>Most requests take 30 seconds or less. Reload page if request takes longer than 90 seconds.</li>
-					</ul>
+				
+				<div class="row-fluid section1">
+					<div id="search-div" class="span5 offset1 hide well">
+						<h5 class="text-left">Search Results</h5>
+						<span id="wait-search" class="vocifery-info hide"><img
+							src="img/355.gif" alt="Searching ..." /><span>Searching
+								...</span></span>
+						<p id="search-result"></p>
+					</div>
+					<div id="answer-div" class="span4 offset1 hide well">
+						<h5 class="text-left">Candidate Answers</h5>
+						<span id="wait-think" class="vocifery-info hide"><img
+							src="img/355.gif" alt="Thinking ..." /><span>Thinking
+								...</span></span>
+						<p id="search-log"></p>
+					</div>
 				</div>
 			</div>
-
-			<div class="row-fluid">
-				<div class="center footer">This work is licensed under the 
-					<a href="http://creativecommons.org/licenses/by-sa/3.0/">CC By-SA
-					3.0 </a>, without all the cruft that would otherwise be put at the
-					bottom of the page.</div>
-			</div>		
-		</div>
+		</header>
+		
+		<div id="main">&nbsp;</div>
+		
+		<footer>
+		
+			<div class="white detail">
+				<div class="row-fluid">
+					<div class="span4 center">
+						<h3 class="blue">Description</h3>
+						<p>Vocifery is a question answering (QA) engine. 
+					   	Questions are parsed for context, and then queries are sent to various Internet search engines.
+					   	Search results are further analyzed for candidate answers that best satisfy the question.	
+						</p>
+					</div>
+		
+					<div class="span4 center">
+						<h3 class="green">Sample Questions</h3>
+						<ul>
+							<li>How fast is the speed of light?</li>
+							<li>Where is the wettest spot on earth?</li>
+							<li>Who assassinated Julius Caesar?</li>
+							<li>When does Diwali occur?</li>
+							<li>What is the meaning of life, the universe, and everything?</li>
+						</ul>
+					</div>
+		
+					<div class="span4 center">
+						<h3 class="purple">Notes</h3>
+						<p>
+						System performance is not optimal because the backend runs on Google Appengine's free tier.
+						Most requests should take 30 seconds or less. 
+						Reload the page if request takes longer than 60 seconds.
+						</p>
+					</div>
+				</div>
+			</div>
+		
+			<p class="footer">This work is licensed under the <a
+				href="http://creativecommons.org/licenses/by-sa/3.0/">CC By-SA
+				3.0 </a>, without all the cruft that would otherwise be put at the
+				bottom of the page.
+			</p>
+		</footer>
 	</div>
 
+	
+	
 	<div id="query-validator" class="modal hide fade">
 		<div class="modal-body">
 			<p>Question must begin with one of
@@ -434,6 +426,8 @@ div.addthis_toolbox {
 		</div>
 	</div>
 
+	
+	
 	<script type="text/javascript">
 		var request;
 		var questionUrl = "http://vocifery.appspot.com/question";
@@ -532,6 +526,8 @@ div.addthis_toolbox {
 			}
 		);
 	</script>
+	
+	
 
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
