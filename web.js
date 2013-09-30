@@ -31,7 +31,7 @@ apt.get('/email', function(request, response) {
   });
 
   smtpTransport.sendEmail({
-    from: request.body.name + " &lt;" + request.body.email + " &gt;";
+    from: request.body.name + " &lt;" + request.body.email + " &gt;",
     to: "Don Tjandra <donny.tjandra@gmail.com>",
     subject: request.body.subject,
     text: request.body.message
