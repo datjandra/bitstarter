@@ -21,7 +21,7 @@ app.get('/', function(request, response) {
 });
 
 // Send email
-apt.get('/email', function(request, response) {
+app.get('/email', function(request, response) {
   var smtpTransport = mailer.createTransport("SMTP",{
     service: "Gmail",
     auth: {
