@@ -5,7 +5,8 @@ var async   = require('async')
   , fs      = require('fs')
   , http    = require('http')
   , https   = require('https')
-  , db      = require('./models');
+  , db      = require('./models')
+  , mailer  = require('nodemailer')
 
 var app = express();
 app.set('views', __dirname + '/views');
@@ -17,6 +18,30 @@ app.use(express.static(__dirname + '/bootstrap'));
 app.get('/', function(request, response) {
   var data = fs.readFileSync('index.html').toString();
   response.send(data);
+});
+
+// Send email
+apt.get('/email', function(request, response) {
+  var smtpTransport = mailer.createTransport("SMTP",{
+    service: "Gmail",
+    auth: {
+      user: "donny.tjandra@gmail.com",
+      pass: "iiqlgkslaobcdsnc"
+    }
+  });
+
+  smtpTransport.sendEmail({
+    from: request.body.name + " &lt;" + request.body.email + " &gt;";
+    to: "Don Tjandra <donny.tjandra@gmail.com>",
+    subject: request.body.subject,
+    text: request.body.message
+  }, function(error, response) {
+    if (error) {
+      console.log(error);
+    } else {
+      console.log("Message sent: " + response.message);
+    }
+  });
 });
 
 // Render example.com/orders

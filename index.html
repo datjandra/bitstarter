@@ -301,6 +301,9 @@ footer {
 				<div class="navbar-inner">
 					<div class="container">
 						<div class="nav-collapse collapse social">
+							<ul class="nav">
+								<li><a onclick="showContactForm(); " href="#">Contact Us</a></li>
+							</ul>
 							<!-- AddThis Button BEGIN -->
 							<ul class="nav addthis_toolbox addthis_default_style addthis_32x32_style pull-right">
 								<li><a class="addthis_button_linkedin"></a></li>
@@ -387,10 +390,10 @@ footer {
 					<div class="span4 center">
 						<h3 class="green">Sample Questions</h3>
 						<ul>
+							<li>When was the prime minister of Australia born?</li>
 							<li>How fast is the speed of light?</li>
 							<li>Where is the wettest spot on earth?</li>
 							<li>Who assassinated Julius Caesar?</li>
-							<li>When does Diwali occur?</li>
 							<li>What is the meaning of life, the universe, and everything?</li>
 						</ul>
 					</div>
@@ -414,8 +417,6 @@ footer {
 		</footer>
 	</div>
 
-	
-	
 	<div id="query-validator" class="modal hide fade">
 		<div class="modal-body">
 			<p>Question must begin with one of
@@ -426,13 +427,41 @@ footer {
 		</div>
 	</div>
 
-	
+	<div id="email-form" class="modal hide fade">
+		<div class="modal-body">
+			<form action="email" class="well span8">
+		  		<div class="row">
+					<div class="span3">
+						<label>Name</label>
+						<input name="name" id="name" type="text" class="span3" placeholder="Your Name">
+						<label>Email Address</label>
+						<input name="email" id="email" type="text" class="span3" placeholder="Your email address">
+						<label>Subject</label>
+						<input name="subject" id="subject" type="text" class="span3" placeholder="Email subject">
+					</div>
+					<div class="span5">
+						<label>Message</label>
+						<textarea name="message" id="message" class="input-xlarge span5" rows="10"></textarea>
+					</div>
+			
+					<button type="submit" class="btn btn-primary pull-right" data-dismiss="modal">Send</button>
+				</div>
+			</form>	
+		</div>
+		<div class="modal-footer">
+			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+		</div>
+	</div>
 	
 	<script type="text/javascript">
 		var request;
 		var questionUrl = "http://vocifery.appspot.com/question";
 		var searchUrl = "http://vocifery.appspot.com/search";
 		var thinkUrl = "http://vocifery.appspot.com/think";
+		
+		function showContactForm() {
+			$('#email-form').modal('show')
+		}
 		
 		function fireEvent(event, input, url, task) {
 			return task(event, input, url);
@@ -527,8 +556,6 @@ footer {
 		);
 	</script>
 	
-	
-
 	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
