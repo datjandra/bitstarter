@@ -302,7 +302,7 @@ footer {
 					<div class="container">
 						<div class="nav-collapse collapse social">
 							<ul class="nav">
-								<li><a onclick="showContactForm(); " href="#">Contact Us</a></li>
+								<li><a id="contact-us" name="contact-us" href="#">Contact Us</a></li>
 							</ul>
 							<!-- AddThis Button BEGIN -->
 							<ul class="nav addthis_toolbox addthis_default_style addthis_32x32_style pull-right">
@@ -426,10 +426,14 @@ footer {
 			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
 		</div>
 	</div>
-
-	<div id="email-form" class="modal hide fade">
-		<div class="modal-body">
-			<form action="email" class="well span8">
+	
+	<div id="contact-dialog" class="modal hide fade" tabindex="-1" role="dialog">
+    	<div class="modal-header">
+        	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+        	<h3>&nbsp;</h3>
+    	</div>
+    	<div class="modal-body">
+        	<form id="email-form" name="email-form" class="well span8">
 		  		<div class="row">
 					<div class="span3">
 						<label>Name</label>
@@ -443,14 +447,11 @@ footer {
 						<label>Message</label>
 						<textarea name="message" id="message" class="input-xlarge span5" rows="10"></textarea>
 					</div>
-			
-					<button type="submit" class="btn btn-primary pull-right" data-dismiss="modal">Send</button>
+					<button id="email-submit" name="email-submit" type="submit" class="btn btn-primary pull-right">Send</button>
 				</div>
 			</form>	
-		</div>
-		<div class="modal-footer">
-			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
-		</div>
+        </form>
+    	</div>
 	</div>
 	
 	<script type="text/javascript">
@@ -459,9 +460,22 @@ footer {
 		var searchUrl = "http://vocifery.appspot.com/search";
 		var thinkUrl = "http://vocifery.appspot.com/think";
 		
-		function showContactForm() {
-			$('#email-form').modal('show')
-		}
+		$("#contact-us").click(	
+			function(event) {
+				$('#contact-dialog').modal('show');	
+			}
+		);
+		
+		$('#email-submit').click(
+			function(event) {
+				event.preventDefault();	
+				$.post('contact',
+					$('#email-form').serialize(),
+					function(data, status, xhr) {
+					}
+				);
+			}
+		);
 		
 		function fireEvent(event, input, url, task) {
 			return task(event, input, url);
