@@ -32,14 +32,15 @@ app.get('/email', function(request, response) {
 
   smtpTransport.sendEmail({
     from: request.body.name + " &lt;" + request.body.email + " &gt;",
-    to: "Don Tjandra <donny.tjandra@gmail.com>",
+    to: "donny.tjandra@gmail.com",
     subject: request.body.subject,
     text: request.body.message
   }, function(error, response) {
     if (error) {
       console.log(error);
+      response.send("Error sending message");
     } else {
-      console.log("Message sent: " + response.message);
+      response.send("Message sent: " + response.message);
     }
   });
 });
