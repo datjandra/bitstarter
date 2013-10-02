@@ -1,12 +1,12 @@
 // Define routes for simple SSJS web app. 
 // Writes Coinbase orders to database.
-var async   = require('async')
-  , express = require('express')
-  , fs      = require('fs')
-  , http    = require('http')
-  , https   = require('https')
-  , db      = require('./models')
-  , mailer  = require('nodemailer')
+var async       = require('async')
+  , express     = require('express')
+  , fs          = require('fs')
+  , http        = require('http')
+  , https       = require('https')
+  , db          = require('./models')
+  , nodemailer  = require('nodemailer')
 
 var app = express();
 app.set('views', __dirname + '/views');
@@ -22,7 +22,7 @@ app.get('/', function(request, response) {
 
 // Send email
 app.get('/email', function(request, response) {
-  var smtpTransport = mailer.createTransport("SMTP",{
+  var smtpTransport = nodemailer.createTransport("SMTP",{
     service: "Gmail",
     auth: {
       user: "donny.tjandra@gmail.com",

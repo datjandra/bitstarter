@@ -469,11 +469,13 @@ footer {
 		$('#email-submit').click(
 			function(event) {
 				event.preventDefault();	
-				$.post('contact',
+				$.post('email',
 					$('#email-form').serialize(),
 					function(data, status, xhr) {
+                                          console.log(status);
 					}
 				);
+                                $('#contact-dialog').modal('hide');
 			}
 		);
 		
