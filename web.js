@@ -13,6 +13,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.set('port', process.env.PORT || 8080);
 app.use(express.static(__dirname + '/bootstrap'));
+app.use(express.bodyParser());
 
 // Render homepage (note trailing slash): example.com/
 app.get('/', function(request, response) {
@@ -21,7 +22,7 @@ app.get('/', function(request, response) {
 });
 
 // Send email
-app.get('/email', function(request, response) {
+app.post('/email', function(request, response) {
   var smtpTransport = nodemailer.createTransport("SMTP",{
     service: "Gmail",
     auth: {
