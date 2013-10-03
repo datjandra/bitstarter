@@ -31,7 +31,7 @@ app.post('/email', function(request, response) {
     }
   });
 
-  smtpTransport.sendEmail({
+  smtpTransport.sendMail({
     from: request.body.name + " &lt;" + request.body.email + " &gt;",
     to: "donny.tjandra@gmail.com",
     subject: request.body.subject,
