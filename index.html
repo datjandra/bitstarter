@@ -427,31 +427,39 @@ footer {
 		</div>
 	</div>
 	
-	<div id="contact-dialog" class="modal hide fade" tabindex="-1" role="dialog">
+	<div id="contact-dialog" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="modal-label" aria-hidden="true">
     	<div class="modal-header">
         	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-        	<h3>&nbsp;</h3>
+        	<h3 id="modal-header">Contact Information</h3>
     	</div>
     	<div class="modal-body">
-        	<form id="email-form" name="email-form" class="well span8">
+        	<form id="email-form" name="email-form">
 		  		<div class="row">
-					<div class="span3">
+		  			<div class="span5">
+		  				<div class="control-group">
 						<label>Name</label>
-						<input name="name" id="name" type="text" class="span3" placeholder="Your Name">
-						<label>Email Address</label>
-						<input name="email" id="email" type="text" class="span3" placeholder="Your email address">
-						<label>Subject</label>
-						<input name="subject" id="subject" type="text" class="span3" placeholder="Email subject">
-					</div>
-					<div class="span5">
-						<label>Message</label>
-						<textarea name="message" id="message" class="input-xlarge span5" rows="10"></textarea>
-					</div>
-					<button id="email-submit" name="email-submit" type="submit" class="btn btn-primary pull-right">Send</button>
+						<input name="name" id="name" type="text" class="span3">
+						</div>
+						<div class="control-group">
+							<label>Email</label>
+							<input name="email" id="email" type="text" class="span3">
+						</div>
+						<div class="control-group">
+							<label>Subject</label>
+							<input name="subject" id="subject" type="text" class="span3">
+						</div>
+						<div class="control-group">
+							<label>Message</label>
+							<textarea name="message" id="message" class="input-xlarge span5" rows="5"></textarea>
+						</div>
+		  			</div>
 				</div>
 			</form>	
-        </form>
     	</div>
+    	<div class="modal-footer">
+			<button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+			<button id="email-submit" name="email-submit" class="btn btn-primary">Send</button>
+		</div>
 	</div>
 	
 	<script type="text/javascript">
@@ -469,13 +477,13 @@ footer {
 		$('#email-submit').click(
 			function(event) {
 				event.preventDefault();	
-				$.post('email',
+				$.post('/email',
 					$('#email-form').serialize(),
 					function(data, status, xhr) {
-                                          console.log(status);
+						console.log(status);
 					}
 				);
-                                $('#contact-dialog').modal('hide');
+				$('#contact-dialog').modal('hide');	
 			}
 		);
 		
