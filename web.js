@@ -36,12 +36,12 @@ app.post('/email', function(request, response) {
     to: "donny.tjandra@gmail.com",
     subject: request.body.subject,
     text: request.body.message
-  }, function(error, response) {
+  }, function(error, resp) {
     if (error) {
       console.log(error);
       response.send("Error sending message");
     } else {
-      response.send("Message sent: " + response.message);
+      response.send("Message sent: " + resp.message);
     }
   });
 });
