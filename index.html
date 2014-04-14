@@ -390,7 +390,7 @@ footer {
 					<div class="span4 center">
 						<h3 class="green">Sample Questions</h3>
 						<ul>
-							<li>When was the prime minister of Australia born?</li>
+							<li>When did Kate Middleton get married?</li>
 							<li>How fast is the speed of light?</li>
 							<li>Where is the wettest spot on earth?</li>
 							<li>Who assassinated Julius Caesar?</li>
@@ -464,8 +464,8 @@ footer {
 	
 	<script type="text/javascript">
 		var request;
-		var questionUrl = "http://vocifery.appspot.com/question";
-		var searchUrl = "http://vocifery.appspot.com/search";
+		var askUrl = "http://vocifery.appspot.com/ask";
+		var fetchUrl = "http://vocifery.appspot.com/fetch";
 		var thinkUrl = "http://vocifery.appspot.com/think";
 		
 		$("#contact-us").click(	
@@ -491,11 +491,13 @@ footer {
 			return task(event, input, url);
 		}
 		
-		var findAnswer = function(event, input, url) {
+		var seekAnswers = function(event, input, url) {
 			$("#answer-div").show();
 			$("#wait-think").show();
+			
+			var searchResults = JSON.stringify(input);
 			var posting = $.post(url, {
-				corpus : JSON.stringify(input)
+				searchResults: searchResults
 			});
 			
 			posting.done(function(data) {
@@ -503,22 +505,102 @@ footer {
 				var log = $("#search-log");
 				log.empty().html("<ul>");
 				var list = log.find("ul");
-				for ( var i = 0; i < candidates.length; i++) {
-					list.append("<li>" + candidates[i] + "</li>\n");
+				for (var i = 0; i < candidates.length; i++) {
+					var triple = candidates[i];
+					if (triple.a) {
+						list.append("<li><a href='" + triple.a + "'>"
+							+ triple.b + "</a><br/>" + triple.c
+							+ "</li>");	
+					} else {
+						list.append("<li>" + triple.b + "</li>");		
+					}
 				}
 				log.append("</ul>");
 				$("#wait-think").hide();
 			});
 		}
 		
-		var runSearch = function(event, input,  url) {
-			$("#search-div").show();
+		var fetchContent = function(event, input, url) {
 			$("#wait-search").show();
+			var searchResults = input;
+			
+			var allItems = new Array();
+			var feeds = searchResults.feeds;
+			for (var i=0; i<feeds.length; i++) {
+				var items = feeds[i].items;
+				for (var j=0; j<items.length; j++) {
+					allItems.push(items[j]);
+				}
+			}
+			
+			var fetchCount = 0;
+			var MAX_FETCHES = 3;
+			for (var i=0; i<allItems.length; i++) {
+				if (i >= MAX_FETCHES) {
+					break;	
+				}
+				
+				var item = allItems[i];	
+				if (item) {
+					$.ajax({
+						url: url,
+						type: 'POST',
+						data: {
+							url: encodeURIComponent(item.url)
+						},
+						success: function(response) {
+							item.documentText = response.text;
+							fetchCount++;
+							
+							if (fetchCount >= MAX_FETCHES) {
+								$("#wait-search").hide();
+								fireEvent(event, searchResults, thinkUrl, seekAnswers);
+							}
+						},
+						error: function(xhr, textStatus, thrownError) {
+							if ( window.console && window.console.log ) {
+								window.console.log(textStatus);
+							}
+							fetchCount++;
+							
+							if (fetchCount >= MAX_FETCHES) {
+								$("#wait-search").hide();
+								fireEvent(event, searchResults, thinkUrl, seekAnswers);
+							}
+						}
+					});		
+				}
+			}
+		}
+		
+		var askQuestion = function(event, input, url) {
+			if (!validateQuestion(input)) {
+				event.preventDefault();
+				return false;
+			}
+
+			if (request) {
+				request.abort();
+			}
+			event.preventDefault();
+			
+			$("#question-parse").show();
+			$("#wait-parse").show();
+			
 			var posting = $.post(url, {
-				query : JSON.stringify(input)
+				question: input
 			});
 			
 			posting.done(function(response) {
+				var row = "<tr><td>" + response.semanticMap.ANSWER_TYPE 
+				 		 + "</td><td>" + response.semanticMap.FOCUS
+				 		 + "</td><td>" + response.semanticMap.FOCUS_DOMAIN
+						 + "</td><td>" + response.semanticMap.ANSWER_TYPE_ENTITY
+						 + "</td><td>" + response.semanticMap.ANSWER_TYPE_PROPERTY
+						 + "</td></tr>";
+				$("#question-segment").empty().html(row);
+				
+				$("#search-div").show();
 				$("#search-result").empty().html("<ul>")
 				var list = $("#search-result").find("ul");
 
@@ -536,48 +618,18 @@ footer {
 					}
 				}
 				$("#search-result").append("</ul>");
-				$("#wait-search").hide();
-				fireEvent(event, response, thinkUrl, findAnswer);
-			});
-		}
-		
-		var askQuestion = function(event, input, url) {
-			if (!validateQuestion(input)) {
-				event.preventDefault();
-				return false;
-			}
-
-			if (request) {
-				request.abort();
-			}
-			event.preventDefault();
-			
-			$("#question-parse").show();
-			$("#wait-parse").show();
-			var posting = $.post(url, {
-				query : input
-			});
-			
-			posting.done(function(response) {
-				var row = "<tr><td>" + response.semanticRoles.ANSWER_TYPE 
-				 		 + "</td><td>" + response.semanticRoles.FOCUS
-				 		 + "</td><td>" + response.semanticRoles.FOCUS_DOMAIN
-						 + "</td><td>" + response.semanticRoles.ANSWER_TYPE_ENTITY
-						 + "</td><td>" + response.semanticRoles.ANSWER_TYPE_PROPERTY
-						 + "</td></tr>";
-				$("#question-segment").empty().html(row);
 				$("#wait-parse").hide();
-				fireEvent(event, response, searchUrl, runSearch);
+				fireEvent(event, response, fetchUrl, fetchContent);
 			});
 		}
 		
 		$("#query").submit(	
 			function(event) {
 				var input = $(this).find('input[name="question"]').val();
-				fireEvent(event, input, questionUrl, askQuestion);
+				fireEvent(event, input, askUrl, askQuestion);
 				return false;		
 			}
-		);
+		)
 	</script>
 	
 	<script>
