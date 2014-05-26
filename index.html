@@ -125,15 +125,15 @@ p {
 	overflow: auto;
 }
 
-#search-log {
+#candidate-answers {
 	overflow: auto;
 }
 
-#search-log ul {
+#candidate-answers ul {
 	list-style-type: none;
 }
 
-#search-log li {
+#candidate-answers li {
 	padding-bottom: 20px;
 }
 
@@ -367,7 +367,7 @@ footer {
 						<span id="wait-think" class="vocifery-info hide"><img
 							src="img/355.gif" alt="Thinking ..." /><span>Thinking
 								...</span></span>
-						<p id="search-log"></p>
+						<p id="candidate-answers"></p>
 					</div>
 				</div>
 			</div>
@@ -390,10 +390,8 @@ footer {
 					<div class="span4 center">
 						<h3 class="green">Sample Questions</h3>
 						<ul>
-							<li>When did Kate Middleton get married?</li>
-							<li>How fast is the speed of light?</li>
 							<li>Where is the wettest spot on earth?</li>
-							<li>Who assassinated Julius Caesar?</li>
+							<li>Who betrayed Jesus in the gospels?</li>
 							<li>What is the meaning of life, the universe, and everything?</li>
 						</ul>
 					</div>
@@ -464,9 +462,15 @@ footer {
 	
 	<script type="text/javascript">
 		var request;
-		var askUrl = "http://vocifery.appspot.com/ask";
-		var fetchUrl = "http://vocifery.appspot.com/fetch";
-		var thinkUrl = "http://vocifery.appspot.com/think";
+		var base = "http://vocifery.appspot.com";
+		var askUrl = base + "/ask";
+		var fetchUrl = base + "/fetch";
+		var thinkUrl = base + "/think";
+		var pingUrl = base + "/ping";
+		
+		$.get(pingUrl, function(data) {
+			console.log(data);	
+		});
 		
 		$("#contact-us").click(	
 			function(event) {
@@ -491,6 +495,10 @@ footer {
 			return task(event, input, url);
 		}
 		
+		function isEmpty(str) {
+			return (!str || 0 === str.length);
+		}
+		
 		var seekAnswers = function(event, input, url) {
 			$("#answer-div").show();
 			$("#wait-think").show();
@@ -502,22 +510,51 @@ footer {
 			
 			posting.done(function(data) {
 				var candidates = data.candidates;
-				var log = $("#search-log");
-				log.empty().html("<ul>");
-				var list = log.find("ul");
+				var candidateAnswers = $("#candidate-answers");
+				candidateAnswers.empty().html("<ul>");
+				var list = candidateAnswers.find("ul");
 				for (var i = 0; i < candidates.length; i++) {
-					var triple = candidates[i];
-					if (triple.a) {
-						list.append("<li><a href='" + triple.a + "'>"
-							+ triple.b + "</a><br/>" + triple.c
-							+ "</li>");	
+					var quartet = candidates[i];
+					if (quartet.a) {
+						list.append("<li><a href='" + quartet.a + "'>"
+							+ quartet.c + "</a><br/>" 
+							+ quartet.b
+							+ " <b>" + quartet.c + "</b> "
+							+ quartet.d + "</li>");	
 					} else {
-						list.append("<li>" + triple.b + "</li>");		
+						list.append("<li>" + quartet.c + "</li>");		
 					}
 				}
-				log.append("</ul>");
+				candidateAnswers.append("</ul>");
 				$("#wait-think").hide();
 			});
+		}
+		
+		function fetchItemContents(event, url, searchResults, items, itemIndex) {
+			if (itemIndex >= 3) {
+				$("#wait-search").hide();
+				fireEvent(event, searchResults, thinkUrl, seekAnswers);
+				return;
+			}
+			
+			var item = items[itemIndex];
+			$.ajax({
+				url: url,
+				type: 'POST',
+				data: {
+					url: encodeURIComponent(item.url)
+				},
+				success: function(response) {
+					item.documentText = response.text;
+					fetchItemContents(event, url, searchResults, items, itemIndex+1);
+				},
+				error: function(xhr, textStatus, thrownError) {
+					if ( window.console && window.console.log ) {
+						window.console.log(textStatus);
+					}
+					fetchItemContents(event, url, searchResults, items, itemIndex+1);
+				}
+			});		
 		}
 		
 		var fetchContent = function(event, input, url) {
@@ -532,45 +569,7 @@ footer {
 					allItems.push(items[j]);
 				}
 			}
-			
-			var fetchCount = 0;
-			var MAX_FETCHES = 3;
-			for (var i=0; i<allItems.length; i++) {
-				if (i >= MAX_FETCHES) {
-					break;	
-				}
-				
-				var item = allItems[i];	
-				if (item) {
-					$.ajax({
-						url: url,
-						type: 'POST',
-						data: {
-							url: encodeURIComponent(item.url)
-						},
-						success: function(response) {
-							item.documentText = response.text;
-							fetchCount++;
-							
-							if (fetchCount >= MAX_FETCHES) {
-								$("#wait-search").hide();
-								fireEvent(event, searchResults, thinkUrl, seekAnswers);
-							}
-						},
-						error: function(xhr, textStatus, thrownError) {
-							if ( window.console && window.console.log ) {
-								window.console.log(textStatus);
-							}
-							fetchCount++;
-							
-							if (fetchCount >= MAX_FETCHES) {
-								$("#wait-search").hide();
-								fireEvent(event, searchResults, thinkUrl, seekAnswers);
-							}
-						}
-					});		
-				}
-			}
+			fetchItemContents(event, url, searchResults, allItems, 0);
 		}
 		
 		var askQuestion = function(event, input, url) {
