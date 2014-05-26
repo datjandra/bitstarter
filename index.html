@@ -531,7 +531,7 @@ footer {
 		}
 		
 		function fetchItemContents(event, url, searchResults, items, itemIndex) {
-			if (itemIndex >= 3) {
+			if (itemIndex >= 2) {
 				$("#wait-search").hide();
 				fireEvent(event, searchResults, thinkUrl, seekAnswers);
 				return;
