@@ -505,6 +505,7 @@ footer {
 			
 			var searchResults = JSON.stringify(input);
 			var posting = $.post(url, {
+				timeout: 60000,
 				searchResults: searchResults
 			});
 			
@@ -526,6 +527,11 @@ footer {
 					}
 				}
 				candidateAnswers.append("</ul>");
+				$("#wait-think").hide();
+			});
+			
+			posting.fail(function(xhr, textStatus, errorThrown) {
+				alert(xhr.responseText);		
 				$("#wait-think").hide();
 			});
 		}
