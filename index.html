@@ -343,9 +343,9 @@ footer {
 		        			<tr>
 		            			<th>Answer Type</th>
 		            			<th>Focus</th>
+		            			<th>Action</th>
+		            			<th>Target</th>
 		            			<th>Domain</th>
-		            			<th>Entity</th>
-		            			<th>Property</th>
 		        			</tr>
 		    			</thead>
 		    			<tbody id="question-segment">
@@ -597,11 +597,11 @@ footer {
 			});
 			
 			posting.done(function(response) {
-				var row = "<tr><td>" + response.semanticMap.ANSWER_TYPE 
+				var row = "<tr><td>" + response.semanticMap.ANSWER_TYPE
 				 		 + "</td><td>" + response.semanticMap.FOCUS
-				 		 + "</td><td>" + response.semanticMap.FOCUS_DOMAIN
-						 + "</td><td>" + response.semanticMap.ANSWER_TYPE_ENTITY
-						 + "</td><td>" + response.semanticMap.ANSWER_TYPE_PROPERTY
+				 		 + "</td><td>" + response.semanticMap.ACTION
+						 + "</td><td>" + response.semanticMap.TARGET
+						 + "</td><td>" + response.semanticMap.FOCUS_DOMAIN
 						 + "</td></tr>";
 				$("#question-segment").empty().html(row);
 				
