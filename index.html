@@ -355,15 +355,15 @@ footer {
 				</div>
 				
 				<div class="row-fluid section1">
-					<div id="search-div" class="span5 offset1 hide well">
+					<div id="search-div" class="span6 offset1 hide well">
 						<h5 class="text-left">Search Results</h5>
 						<span id="wait-search" class="vocifery-info hide"><img
 							src="img/355.gif" alt="Searching ..." /><span>Searching
 								...</span></span>
 						<p id="search-result"></p>
 					</div>
-					<div id="answer-div" class="span4 offset1 hide well">
-						<h5 class="text-left">Candidate Answers</h5>
+					<div id="answer-div" class="span4 hide well">
+						<h5 class="text-left">Detailed Answers</h5>
 						<span id="wait-think" class="vocifery-info hide"><img
 							src="img/355.gif" alt="Thinking ..." /><span>Thinking
 								...</span></span>
@@ -500,9 +500,6 @@ footer {
 		}
 		
 		var seekAnswers = function(event, input, url) {
-			$("#answer-div").show();
-			$("#wait-think").show();
-			
 			var searchResults = JSON.stringify(input);
 			var posting = $.post(url, {
 				timeout: 60000,
@@ -510,6 +507,7 @@ footer {
 			});
 			
 			posting.done(function(data) {
+				$("#answer-div").show();
 				var candidates = data.candidates;
 				var candidateAnswers = $("#candidate-answers");
 				candidateAnswers.empty().html("<ul>");
@@ -527,12 +525,11 @@ footer {
 					}
 				}
 				candidateAnswers.append("</ul>");
-				$("#wait-think").hide();
 			});
 			
 			posting.fail(function(xhr, textStatus, errorThrown) {
 				alert(xhr.responseText);		
-				$("#wait-think").hide();
+				$("#answer-div").hide();
 			});
 		}
 		
@@ -589,6 +586,7 @@ footer {
 			}
 			event.preventDefault();
 			
+			$("#answer-div").hide();
 			$("#question-parse").show();
 			$("#wait-parse").show();
 			
