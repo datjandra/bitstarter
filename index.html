@@ -507,8 +507,11 @@ footer {
 			});
 			
 			posting.done(function(data) {
-				$("#answer-div").show();
 				var candidates = data.candidates;
+				if (candidates.length > 0) {
+					$("#answer-div").show();
+				}
+				
 				var candidateAnswers = $("#candidate-answers");
 				candidateAnswers.empty().html("<ul>");
 				var list = candidateAnswers.find("ul");
@@ -527,15 +530,16 @@ footer {
 				candidateAnswers.append("</ul>");
 			});
 			
-			posting.fail(function(xhr, textStatus, errorThrown) {
-				alert(xhr.responseText);		
+			posting.fail(function(xhr, textStatus, errorThrown) {	
+				if ( window.console && window.console.log ) {
+					window.console.log(xhr.responseText);
+				}
 				$("#answer-div").hide();
 			});
 		}
 		
 		function fetchItemContents(event, url, searchResults, items, itemIndex) {
 			if (itemIndex >= 2) {
-				$("#wait-search").hide();
 				fireEvent(event, searchResults, thinkUrl, seekAnswers);
 				return;
 			}
@@ -561,9 +565,7 @@ footer {
 		}
 		
 		var fetchContent = function(event, input, url) {
-			$("#wait-search").show();
 			var searchResults = input;
-			
 			var allItems = new Array();
 			var feeds = searchResults.feeds;
 			for (var i=0; i<feeds.length; i++) {
@@ -586,6 +588,7 @@ footer {
 			}
 			event.preventDefault();
 			
+			$("#search-div").hide();
 			$("#answer-div").hide();
 			$("#question-parse").show();
 			$("#wait-parse").show();
@@ -595,11 +598,11 @@ footer {
 			});
 			
 			posting.done(function(response) {
-				var row = "<tr><td>" + response.semanticMap.ANSWER_TYPE
-				 		 + "</td><td>" + response.semanticMap.FOCUS
-				 		 + "</td><td>" + response.semanticMap.ACTION
-						 + "</td><td>" + response.semanticMap.TARGET
-						 + "</td><td>" + response.semanticMap.FOCUS_DOMAIN
+				var row = "<tr><td>" + (response.semanticMap.ANSWER_TYPE ? response.semanticMap.ANSWER_TYPE : "-")
+				 		 + "</td><td>" + (response.semanticMap.FOCUS ? response.semanticMap.FOCUS : "-")
+				 		 + "</td><td>" + (response.semanticMap.ACTION ? response.semanticMap.ACTION : "-")
+						 + "</td><td>" + (response.semanticMap.TARGET ? response.semanticMap.TARGET : "-")
+						 + "</td><td>" + (response.semanticMap.FOCUS_DOMAIN ? response.semanticMap.FOCUS_DOMAIN : "-")
 						 + "</td></tr>";
 				$("#question-segment").empty().html(row);
 				
