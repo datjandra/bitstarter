@@ -342,8 +342,8 @@ footer {
 						<thead>
 		        			<tr>
 		            			<th>Answer Type</th>
-		            			<th>Focus</th>
 		            			<th>Action</th>
+		            			<th>Focus</th>
 		            			<th>Target</th>
 		            			<th>Domain</th>
 		        			</tr>
@@ -462,11 +462,11 @@ footer {
 	
 	<script type="text/javascript">
 		var request;
-		var base = "http://vocifery.appspot.com";
+		var base = "http://vocifery-garudasystems.rhcloud.com";
 		var askUrl = base + "/ask";
 		var fetchUrl = base + "/fetch";
 		var thinkUrl = base + "/think";
-		var pingUrl = base + "/_ah_warmup";
+		var pingUrl = base + "/ask?question=What%20time%20is%20it%3F";
 		
 		$.get(pingUrl, function(data) {
 			console.log(data);	
@@ -599,9 +599,9 @@ footer {
 			
 			posting.done(function(response) {
 				var row = "<tr><td>" + (response.semanticMap.ANSWER_TYPE ? response.semanticMap.ANSWER_TYPE : "-")
+						 + "</td><td>" + (response.semanticMap.ACTION ? response.semanticMap.ACTION : "-")
 				 		 + "</td><td>" + (response.semanticMap.FOCUS ? response.semanticMap.FOCUS : "-")
-				 		 + "</td><td>" + (response.semanticMap.ACTION ? response.semanticMap.ACTION : "-")
-						 + "</td><td>" + (response.semanticMap.TARGET ? response.semanticMap.TARGET : "-")
+						 + "</td><td>" + (response.semanticMap.PREPOSITION ? response.semanticMap.PREPOSITION : "-")
 						 + "</td><td>" + (response.semanticMap.FOCUS_DOMAIN ? response.semanticMap.FOCUS_DOMAIN : "-")
 						 + "</td></tr>";
 				$("#question-segment").empty().html(row);
