@@ -176,10 +176,6 @@ Heroku deployment configuration specifying how to start the application.
 
 This project is licensed under the [Creative Commons Attribution-ShareAlike 3.0](http://creativecommons.org/licenses/by-sa/3.0/) license.
 
-## Author
-
-Created by Donny Tjandra (@datjandra)
-
 ## Related Resources
 
 - [Coinbase API Documentation](https://coinbase.com/)
